@@ -44,6 +44,11 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
         'as' => 'api.auth.update'
     ]);
 
+    $router->post('/auth/users/img1', [
+        'uses' => 'AuthController@uploadImg1',
+        'as' => 'api.auth.uploadImg1'
+    ]);
+
     // farmers
 
     $router->get('/farmers/{id}', [
