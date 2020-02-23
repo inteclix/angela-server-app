@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Database\QueryException;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends BaseController
 {
@@ -240,14 +241,16 @@ class AuthController extends BaseController
     {
         $response = null;
         $user = $request->auth;
+        $path = $request->file('img1')->store('avatars');
 
+        return $path;
         if ($request->hasFile('img1')) {
             $original_filename = $request->file('img1')->getClientOriginalName();
             $original_filename_arr = explode('.', $original_filename);
             $file_ext = end($original_filename_arr);
             $destination_path = './upload/user/';
             $img1 = 'U-' . time() . '.' . $file_ext;
-
+            Storage::disk()->put($img1, $request->file('img1'));
             if ($request->file('img1')->move($destination_path, $img1)) {
                 $user->img1 = '/upload/user/' . $img1;
                 //return $this->responseRequestSuccess($user);
@@ -255,7 +258,7 @@ class AuthController extends BaseController
                     $user->save();
                 } catch (QueryException $e){
                     return new JsonResponse([
-                        'message' => 'Sql exception'
+                        'message' => 'Sql exception' . $e
                     ], Response::HTTP_BAD_REQUEST);
                 }
                 return new JsonResponse([
