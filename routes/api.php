@@ -44,11 +44,6 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
         'as' => 'api.auth.update'
     ]);
 
-    $router->post('/auth/users/img1', [
-        'uses' => 'AuthController@uploadImg1',
-        'as' => 'api.auth.uploadImg1'
-    ]);
-
     // farmers
 
     $router->get('/farmers/{id}', [
@@ -74,5 +69,20 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     $router->put('/farmers/{id}', [
         'uses' => 'FarmerController@update',
         'as' => 'api.farmers.update'
+    ]);
+
+    $router->post('/farmers/img1/{id}', [
+        'uses' => 'FarmerController@uploadImg1',
+        'as' => 'api.farmers.uploadImg1'
+    ]);
+
+    $router->post('/farmers/img2/{id}', [
+        'uses' => 'FarmerController@uploadImg2',
+        'as' => 'api.farmers.uploadImg2'
+    ]);
+
+    $router->post('/farmers/img3/{id}', [
+        'uses' => 'FarmerController@uploadImg3',
+        'as' => 'api.farmers.uploadImg3'
     ]);
 });

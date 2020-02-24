@@ -78,25 +78,12 @@ $app->routeMiddleware([
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-// $app->register(Illuminate\Broadcasting\BroadcastServiceProvider::class);
 
-// $app->singleton(
-//     Illuminate\Contracts\Filesystem\Factory::class,
-//     function ($app) {
-//         return new Illuminate\Filesystem\FilesystemManager($app);
-//     }
-// );
 
 if ($app->environment() !== 'production') {
     $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 }
 
-$app->singleton(
-    Illuminate\Contracts\Filesystem\Factory::class,
-    function ($app) {
-        return new Illuminate\Filesystem\FilesystemManager($app);
-    }
-);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

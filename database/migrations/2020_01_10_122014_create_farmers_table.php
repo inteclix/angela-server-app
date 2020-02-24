@@ -28,6 +28,9 @@ class CreateFarmersTable extends Migration
             $table->string('farmer_job');
             $table->boolean('farmer_morabi_card');
             $table->string('farmer_level_educ');
+            $table->string('farmer_img1');
+            $table->string('farmer_img2');
+            $table->string('farmer_img3');
         // mazra3a
             $table->string('farm_name');
             $table->string('farm_address');

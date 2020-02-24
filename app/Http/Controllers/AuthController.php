@@ -236,45 +236,5 @@ class AuthController extends BaseController
             'message' => 'Permission denied'
         ], Response::HTTP_UNAUTHORIZED);
     }
-
-    public function uploadImg1(Request $request)
-    {
-        $response = null;
-        $user = $request->auth;
-        $path = $request->file('img1')->store('avatars');
-
-        return $path;
-        if ($request->hasFile('img1')) {
-            $original_filename = $request->file('img1')->getClientOriginalName();
-            $original_filename_arr = explode('.', $original_filename);
-            $file_ext = end($original_filename_arr);
-            $destination_path = './upload/user/';
-            $img1 = 'U-' . time() . '.' . $file_ext;
-            Storage::disk()->put($img1, $request->file('img1'));
-            if ($request->file('img1')->move($destination_path, $img1)) {
-                $user->img1 = '/upload/user/' . $img1;
-                //return $this->responseRequestSuccess($user);
-                try{
-                    $user->save();
-                } catch (QueryException $e){
-                    return new JsonResponse([
-                        'message' => 'Sql exception' . $e
-                    ], Response::HTTP_BAD_REQUEST);
-                }
-                return new JsonResponse([
-                    'message' => 'Success update user',
-                    'data' => $user
-                ], Response::HTTP_CREATED);
-            } else {
-                return new JsonResponse([
-                    'message' => 'Cannot upload file'
-                ], Response::HTTP_BAD_REQUEST);
-            }
-        } else {
-            return new JsonResponse([
-                'message' => 'File not found'
-            ], Response::HTTP_BAD_REQUEST);
-        }
-    }
     
 }

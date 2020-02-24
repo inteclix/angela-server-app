@@ -9,6 +9,7 @@
         "firebase/php-jwt": "^5.0",
         "flipbox/lumen-generator": "^6.0",
         "laravel/lumen-framework": "5.8.*",
+        "league/flysystem": "^1.0",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
