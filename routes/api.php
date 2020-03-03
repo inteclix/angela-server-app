@@ -12,6 +12,10 @@ $router->post('auth/login', [
     'as' => 'api.auth.login'
 ]);
 
+$router->get('/state/farmers_excel_no_user', [
+    'uses' => 'StateController@dowloadFarmersNoUser',
+    'as' => 'api.state.dowloadFarmersNoUser'
+]);
 $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     ///////////// auth methods
     $router->get('/auth/me', [
@@ -84,5 +88,17 @@ $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     $router->post('/farmers/img3/{id}', [
         'uses' => 'FarmerController@uploadImg3',
         'as' => 'api.farmers.uploadImg3'
+    ]);
+
+    // state
+
+    $router->get('/state/numbers_farmers_users', [
+        'uses' => 'StateController@getNumbersFarmersAndUsers',
+        'as' => 'api.state.getNumbersFarmersAndUsers'
+    ]);
+       
+    $router->get('/state/farmers_excel', [
+        'uses' => 'StateController@dowloadFarmers',
+        'as' => 'api.state.dowloadFarmers'
     ]);
 });
