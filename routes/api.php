@@ -16,6 +16,12 @@ $router->get('/state/farmers_excel_no_user', [
     'uses' => 'StateController@dowloadFarmersNoUser',
     'as' => 'api.state.dowloadFarmersNoUser'
 ]);
+
+$router->get('/state/test', [
+    'uses' => 'StateController@test',
+    'as' => 'api.state.test'
+]);
+
 $router->group(['middleware' => 'jwt.auth'], function () use ($router) {
     ///////////// auth methods
     $router->get('/auth/me', [

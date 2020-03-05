@@ -12,6 +12,11 @@ use Exception;
 use App\Exports\FarmersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
+
 use App\User;
 use App\Farmer;
 
@@ -45,6 +50,41 @@ class StateController extends Controller
 
     function dowloadFarmersNoUser(Request $request){
         return Excel::download(new FarmersExport, 'farmers.xlsx');
+    }
+
+    function test(Request $request){
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $farmers = Farmer::all()->toArray();
+        $f = Farmer::first()->toArray();
+        $col = "A";
+        foreach($f as $key => $value){
+            $sheet->setCellValue($col."1", $key);
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+            $col++;
+        }
+        $lighn = 2;
+        foreach($farmers as $farmer){
+            $col = "A";
+            foreach($farmer as $value){
+                $sheet->setCellValue($col.$lighn, $value);
+                
+                $col++;
+            }
+            $lighn ++;
+        }
+        $writer = new Xlsx($spreadsheet);
+        
+        $response =  new StreamedResponse(
+            function () use ($writer) {
+                $writer->save('php://output');
+            }
+        );
+        $response->headers->set('Content-Type', 'application/vnd.ms-excel');
+        $response->headers->set('Content-Disposition', 'attachment;filename="ExportScan.xlsx"');
+        $response->headers->set('Cache-Control','max-age=0');
+        return $response;
+    
     }
 
 }
